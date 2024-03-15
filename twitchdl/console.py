@@ -248,8 +248,8 @@ COMMANDS = [
             }),
             (["-Co", "--chunked-loc"], {
                 "help": "Specify the location of the chunked *.ts dir.",
-                "action": "store_true",
-                "default": False,
+                "action": str,
+                "default": None,
             }),
         ],
     ),
