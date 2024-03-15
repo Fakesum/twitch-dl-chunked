@@ -163,7 +163,7 @@ def _crete_temp_dir(base_uri: str, args) -> str:
     path = urlparse(base_uri).path.lstrip("/")
     
     if args.chunked_loc != None:
-        temp_dir = Path(args.chunked_loc, path)
+        temp_dir = Path(args.chunked_loc)
     else:
         temp_dir = Path(tempfile.gettempdir(), "twitch-dl", path)
     
