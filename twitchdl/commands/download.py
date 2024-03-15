@@ -157,10 +157,16 @@ def _get_vod_paths(playlist, start: Optional[int], end: Optional[int]) -> List[s
     return files
 
 
-def _crete_temp_dir(base_uri: str) -> str:
+def _crete_temp_dir(base_uri: str, args) -> str:
     """Create a temp dir to store downloads if it doesn't exist."""
+    
     path = urlparse(base_uri).path.lstrip("/")
-    temp_dir = Path(tempfile.gettempdir(), "twitch-dl", path)
+    
+    if args.chunked_loc != None:
+        temp_dir = Path(args.chunked_loc, path)
+    else:
+        temp_dir = Path(tempfile.gettempdir(), "twitch-dl", path)
+    
     temp_dir.mkdir(parents=True, exist_ok=True)
     return str(temp_dir)
 
@@ -302,7 +308,7 @@ def _download_video(video_id, args) -> None:
     playlist = m3u8.loads(response.text)
 
     base_uri = re.sub("/[^/]+$", "/", playlist_uri)
-    target_dir = _crete_temp_dir(base_uri)
+    target_dir = _crete_temp_dir(base_uri, args)
     vod_paths = _get_vod_paths(playlist, start, end)
 
     # Save playlists for debugging purposes
